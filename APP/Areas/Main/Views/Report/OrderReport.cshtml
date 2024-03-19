@@ -1,0 +1,63 @@
+﻿@{ ViewData["Title"] = "Order Page"; }
+
+<div class="container">
+    <div class="card card-light">
+        <div class="card-header">
+            <h3 class="card-title font-weight-bold">Order Report</h3>
+
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="orderStatusFilter">Filter by Order Status:</label>
+                <select id="orderStatusFilter" class="form-control">
+                    <option value="">All</option>
+                    <option value="Active">Active</option>
+                    <option value="Pending">Pending</option>
+                    <option value="OnProcess">OnProcess</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Job Assigned">Job Assigned</option>
+                    <option value="Delivered">Delivered</option>
+                    <!-- Add other order status options as needed -->
+                </select>
+            </div>
+            <table id="tblData" class="table table-bordered table-hover" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Order No</th>
+                        <th>Order Date</th>
+                        <th>User Name</th>
+                        <th>Aircraft Name</th>
+                        <th>Qty</th>
+                        <th>Grand Total</th>
+                        <th>Shipping Country</th>
+                        <th>Delivery Date</th>
+                        <th>Order Status</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="action" style="display: none;">
+    <div class="text-center d-flex justify-content-center">
+
+
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/bundles/dataTables.min.css">
+    <link rel="stylesheet" href="~/css/bundles/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/bundles/toastr.min.css">
+}
+
+@section Scripts{
+    <script src="~/js/bundles/dataTables.min.js"></script>
+    <script src="~/js/bundles/sweetalert2.min.js"></script>
+    <script src="~/js/bundles/toastr.min.js"></script>
+    <script src="~/js/custom/report/orderRep.js"></script>
+
+}

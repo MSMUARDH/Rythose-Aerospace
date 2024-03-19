@@ -1,0 +1,169 @@
+﻿@model Models.ViewModels.OrderVM
+@{
+    ViewData["Title"] = "ThankYouPage";
+    double tot = 0;
+    double customizationTotal = 0;
+   
+}
+
+
+<style>
+    .invoice-title h2, .invoice-title h3 {
+        display: inline-block;
+    }
+
+    .table > tbody > tr > .no-line {
+        border-top: none;
+    }
+
+    .table > thead > tr > .no-line {
+        border-bottom: none;
+    }
+
+    .table > tbody > tr > .thick-line {
+        border-top: 2px solid;
+    }
+</style>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+
+                <div style="display:flex;align-items:center;justify-content:center">
+                    <img src="~/img/system/logo.PNG" />
+                </div>
+
+                <h2>Invoice</h2><h3 class="pull-right">Order # @Model.Orders.Id</h3>
+
+  
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Billed To:</strong><br>
+                        @Model.User.FirstName @Model.User.LastName<br>
+                        @Model.User.Address<br>
+                        @Model.User.Email<br>
+
+
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Shipped To:</strong><br>
+                        @Model.ShippingDetail.FirstName @Model.ShippingDetail.LastName<br>
+                        @Model.ShippingDetail.Address<br>
+                        @Model.ShippingDetail.Country<br>
+                        @Model.ShippingDetail.City.Name
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Payment Method:</strong><br>
+                        Cart Payment - Visa<br>
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Order Date:</strong><br>
+                        @Model.Orders.OrderDate<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Order summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-right"><strong>Totals</strong></td>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                @foreach (var item in Model.OrderDetailList)
+                                {
+                                    <tr>
+                                        <td>@item.Aircraft.Name</td>
+                                        <td class="text-center">@item.Aircraft.Price.00</td>
+                                        <td class="text-center">@item.Qty</td>
+                                        <td class="text-right">@Convert.ToDouble(item.Qty * @item.Aircraft.Price).00
+                                    </tr>
+
+                                    @foreach (var item2 in Model.AvailableCustomozationList)
+                                    {
+                                        
+                                            customizationTotal += Convert.ToDouble(item2.Price) * item.Qty;
+                                       
+                                    }
+                                }
+
+
+
+
+                                <tr>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line text-center"><strong>Customization total</strong></td>
+                                    <td class="thick-line text-right">@customizationTotal.00</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>Sub total</strong></td>
+                                    <td class="no-line text-right">@Model.Orders.TotAmount.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>Shipping total</strong></td>
+                                    <td class="no-line text-right">@Model.Orders.ShippingAmount.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>Grand Total</strong></td>
+                                    <td class="no-line text-right"><b>@Model.Orders.GrandTotal.00</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex;justify-content:center; align-items:center;background-color:orange;height:80px">
+        <div style="font-size:25px;color:white;font-weight:bold;font-family:Calibri">Thanks so much for your order! I hope you enjoy your new purchase! </div>
+    </div>
+
+</div>
+

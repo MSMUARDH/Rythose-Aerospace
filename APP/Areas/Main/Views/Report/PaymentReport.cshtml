@@ -1,0 +1,60 @@
+﻿<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title" style="font-weight:bold">Payment Report</h3>
+        </div>
+        <div class="card-body">
+
+            <label for="selectMonth">Select a Month:</label>
+            <select id="selectMonth" class="form-control">
+                <option value="0">All Months</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+            <br />
+            <table id="tblData" class="table table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr class="table-info">
+                        <th>Payment No</th>
+                        <th>Payment On</th>
+                        <th>Client Name</th>
+                        <th>Total Amount</th>
+                        <th>Shipping Amount</th>
+                        <th>Grand Total</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th colspan="5" style="text-align:right">Total:</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/bundles/dataTables.min.css">
+    <link rel="stylesheet" href="~/css/bundles/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/bundles/toastr.min.css">
+}
+
+@section Scripts{
+    <script src="~/js/bundles/dataTables.min.js"></script>
+    <script src="~/js/bundles/sweetalert2.min.js"></script>
+    <script src="~/js/bundles/toastr.min.js"></script>
+    <script src="~/js/custom/report/paymentView.js"></script>
+
+}

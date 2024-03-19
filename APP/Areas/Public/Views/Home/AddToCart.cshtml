@@ -1,0 +1,392 @@
+﻿@using System.Text.Json;
+@using Utility;
+@model Models.ViewModels.CartVM
+@{
+    //var cmntCount = Model.Comments == null ? 0 : Model.Comments.Count();
+}
+@*<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <style>
+        [class*=sidebar-dark-] {
+            background-color: #002244;
+        }
+    </style>*@
+<link rel="stylesheet" href="~/css/bundles/style.min.css">
+<!--<link rel="stylesheet" href="~/template/plugins/fontawesome-free/css/all.min.css">-->
+
+<section class="populer-products">
+    <!-- Default box -->
+    <div class="card card-solid">
+        <div class="card-body">
+            <div class="row">
+                <hr />
+                <div class="col-12 col-sm-6">
+
+
+                    <div class="col-12">
+                        @*<img style="width:500px"  src="@model.aircrafts.imgurl" class="product-image" alt="product image">*@
+
+                        <div class="ecommerce-gallery" data-mdb-zoom-effect="true" data-mdb-auto-height="true">
+                            <div class="row py-3 shadow-5">
+                                <div class="col-12 mb-1">
+                                    <div class="lightbox">
+                                        @*<img style="width:500px" src="@Model.Aircrafts.ImgUrl" class="product-image" alt="Product Image" class="ecommerce-gallery-main-img active w-100">*@
+                                        <img @*src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/14a.webp"*@
+                                             id="mainImage"
+                                             src="@Model.Aircrafts.ImgUrl"
+                                             alt="Gallery image 1"
+                                             class="ecommerce-gallery-main-img active w-100 " />
+                                    </div>
+                                </div>
+                                @foreach (var item in Model.AircrafImages)
+                                {
+                                    <div class="col-3 mt-1">
+                                        <img src="@item.ImgUrl"
+                                             data-mdb-img="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/14a.webp"
+                                             alt="Gallery image 1"
+                                             class="subImage active w-100"
+                                             style="cursor:pointer"
+                                             />
+                                    </div>
+
+                                }
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="welcome-hero-txt">
+                        <h2>@Model.Aircrafts.Name</h2>
+                    </div><!--/.section-header-->
+                    <div class="bg-gray py-2 px-3 mt-4">
+                        <h2 class="mb-0" id="totalPrice">
+                            $.@Model.Aircrafts.Price .00
+                        </h2>
+
+                    </div>
+                    <br />
+                    <p>@Model.Aircrafts.Description</p>
+
+                    <hr>
+               @*     <div class="col-md-6">
+                        <h4>Quantity :</h4>
+                    </div>*@
+                    <form method="post">
+                        <input type="hidden" asp-for="Aircrafts.AircratfId" />
+                        <input type="hidden" asp-for="Carts.Id" />
+                        <input type="hidden" asp-for="Aircrafts" />
+                        <input type="hidden" asp-for="CartDetails.Price" />
+
+
+                        @*here*@
+
+     @*                   <div class="col-md-6">
+                            <input type="number"min="0" id="Qty" asp-for="CartDetails.Qty" required class="form-control" />
+                            <span asp-validation-for="CartDetails.Qty"></span>
+                        </div>
+
+                        <br />
+                        <br />*@
+                        @*here*@
+
+                        <div class="col-md-6 mt-4">
+
+                            <label for="customizationDropdown"><h4>Customization:</h4></label>
+                            <div class="row">
+                                <div class="col-md-6 ">
+
+                                    <label for="colorDropdown" style="font-size:15px">Color:</label>
+                                    <select asp-for="CartDetails.ColorId" class="form-control" style="width:100px; margin-top:5px;font-size:13px;height:30px">
+                                        @{
+                                            bool selectedcolor = true;
+                                        }
+                                        @foreach (var colorCustomization in Model.Availablecustomozation.Where(c => c.CustomzationType == "Color"))
+                                        {
+                                            if (selectedcolor)
+                                            {
+                                                <option value="@colorCustomization.Id" selected="selected" data-price="@colorCustomization.Price">@colorCustomization.CustomzationValue</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@colorCustomization.Id" data-price="@colorCustomization.Price">@colorCustomization.CustomzationValue</option>
+                                            }
+                                            selectedcolor = false;
+                                        }
+                                        @*@foreach (var colorCustomization in Model.Availablecustomozation.Where(c => c.CustomzationType == "Color"))
+            {
+                <option value="@colorCustomization.CustomzationValue" asp-for="@colorCustomization.Id" data-price="@colorCustomization.Price">@colorCustomization.CustomzationValue</option>
+            }*@
+                                    </select>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    @{
+                                        bool selected = true;
+                                    }
+                                    <label asp-for="CartDetails.SeatId" style="font-size:15px">Seat:</label>
+                                    <select asp-for="CartDetails.SeatId" class="form-control" style="width:100px; margin-top:5px;font-size:13px;height:30px">
+                                        @foreach (var seatCustomization in Model.Availablecustomozation.Where(c => c.CustomzationType == "Seat"))
+                                        {
+                                            if (selected)
+                                            {
+                                                <option value="@seatCustomization.Id" selected="selected" data-price="@seatCustomization.Price">@seatCustomization.CustomzationValue</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@seatCustomization.Id" data-price="@seatCustomization.Price">@seatCustomization.CustomzationValue</option>
+                                            }
+                                            selected = false;
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        @*<div class="col-md-6 mt-4">
+                                <label>Total Price:</label>
+                                <span id="totalPrice">@Model.Aircrafts.Price</span>
+                            </div>*@
+
+
+                        @*// testing*@
+                        <div class="col-md-6"  style="margin-top:20px">
+                            <h4 style="margin-bottom:20px" >Quantity :</h4>
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+
+                        <div class="col-md-6">
+                            <input type="number" min="0" max="5" id="Qty" asp-for="CartDetails.Qty" required class="form-control" style="width:100px; margin-top:18px;font-size:15px;height:30px" />
+                            <span asp-validation-for="CartDetails.Qty"></span>
+                        </div>
+
+
+
+                        <div class="col-md-12 mt-4">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <button type="submit" onclick="return validateInput()" class="btn btn-primary btn-lg btn-flat col-md-12 col-sm-6" style="margin-top:30px;height:45px;background-color:darkorange;font-weight:bold ">
+
+                                        <span class="lnr lnr-cart"></span>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="btn btn-default btn-lg btn-flat col-md-12 col-sm-6" style="margin-top:30px">
+                                        <span class="lnr lnr-bookmark" style="color:darkorange"></span>
+                                        <a asp-area="Public" asp-controller="Home" asp-action="ViewCart" style="height:34px;color:darkorange;font-weight:bold">View Cart</a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+            <br />
+            <div class="row mt-4">
+                <nav class="w-100">
+                    <div class="nav nav-tabs" id="product-tab" role="tablist">
+                        <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" role="tab" aria-controls="product-comments" aria-selected="true"><h2>Specifications</h2></a>
+                    </div>
+                </nav>
+                <br />
+                <div class="tab-content p-3" id="nav-tabContent">
+
+                    <div class="row">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <input type="hidden" asp-for="Aircrafts.AircratfId" id="bkId" value="@Model.Aircrafts.AircratfId" />
+                                    @*<textarea class="form-control" id="cmt"></textarea>*@
+                                </div>
+                                @*        <div class="col-md-1">
+                                        <button class="btn btn-primary" onclick="return addComment()"> Add </button>
+                                    </div>*@
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="single-populer-products" style="width:1090px">
+                                        <div class="single-inner-populer-products">
+                                            <div class="single-inner-populer-product-txt">
+
+
+                                                <div class="container mt-5">
+                                                    <table class="table" style="font-size:15px">
+                                                        <thead class="thead-light">
+
+
+                                                            <tr>
+                                                                <th scope="col">Title</th>
+                                                                <th scope="col">Description</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.Specifcation)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.Title</td>
+                                                                    <td>@item.Description</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+
+     @*                                           @foreach (var item in Model.Specifcation)
+                                                {
+                                                    <div class="row">
+                                        
+                                                        <div style="margin-top:20px;font-size:15px">
+                                                            <span style="font-weight:900">@item.Title</span>  :  <span>@item.Description</span>
+                                                        </div>
+
+
+
+
+
+                                                    
+
+                                                    </div>
+
+                                                }*@
+
+                                                @*@if (cmntCount > 0)
+                                                    {
+                                                        @foreach (var item in Model.Comments)
+                                                        {
+                                                            <br />
+                                                            <h4>@item.User.UserName <span class="small"> @item.CmntDate </span></h4>
+                                                            <p>
+                                                                @item.Comment
+                                                            </p>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>There are no comments</p>
+                                                    }*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+</section><!--/.populer-products-->
+
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function validateInput() {
+            let qty = document.getElementById("Qty").value;
+            if (qty == "") {
+                //swal("Error", "Please Enter Qty", "error");
+                alert("Please Enter Qty");
+                return false;
+            }
+            else if (Number(qty) <= 0) {
+                //swal("Error", "Please Enter valied qty", "error");
+                alert("Please Enter valied qty");
+                return false;
+            }
+            return true;
+        }
+        function addComment() {
+            let cmt = document.getElementById("cmt").value;
+            let bkId = document.getElementById("bkId").value;
+            console.log(cmt + "" + bkId);
+            window.location.href = "/Public/Home/AddCmt?cmt=" + cmt + "&bookId=" + bkId;
+
+        }
+    </script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the dropdowns and total price element
+            var colorDropdown = document.getElementById("CartDetails_ColorId");
+            var seatDropdown = document.getElementById("CartDetails_SeatId");
+            var totalPriceElement = document.getElementById("totalPrice");
+
+            // Add an event listener to each dropdown for change events
+            colorDropdown.addEventListener("change", updateTotalPrice);
+            seatDropdown.addEventListener("change", updateTotalPrice);
+
+            //select main image
+
+
+            // Get all elements with the class 'subImage'
+            var imageElements = document.querySelectorAll('.subImage');
+            const mainImage = document.getElementById("mainImage");
+
+            // Add click event listener to each image
+            imageElements.forEach(function (imageElement) {
+                imageElement.addEventListener('click', function () {
+                    // Retrieve the 'src' attribute value when the image is clicked
+                    var srcValue = imageElement.getAttribute("src");
+
+                    // Change the 'src' attribute of the main image
+                    mainImage.setAttribute('src', srcValue);
+
+
+                    // Do something with the 'srcValue', for example, log it to the console
+                    console.log(srcValue);
+                });
+            });
+
+
+
+
+
+
+            function updateTotalPrice() {
+                // Calculate total price based on selected options
+                var colorSelectedOption = colorDropdown.options[colorDropdown.selectedIndex];
+                var seatSelectedOption = seatDropdown.options[seatDropdown.selectedIndex];
+
+                var colorPrice = parseFloat(colorSelectedOption.getAttribute("data-price")) || 0;
+                var seatPrice = parseFloat(seatSelectedOption.getAttribute("data-price")) || 0;
+
+                // Update the total price element
+                var totalPrice = @Model.Aircrafts.Price + colorPrice + seatPrice;
+                totalPriceElement.innerText = "$." + totalPrice.toFixed(2);
+                $("#CartDetails_Price").val(totalPrice);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,154 @@
+﻿@using System.Text.Json;
+@using Utility;
+@model Models.ViewModels.AircraftVM
+@{ }
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: black;
+    }
+
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-gradient-lightblue">
+            <h3 class="card-title" style="font-weight:bold"> Aircraft Information</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="@Model.Aircrafts.AircratfId" value="@Model.Aircrafts.AircratfId" />
+                <input type="hidden" asp-for="@Model.Aircrafts.ImgUrl" value="@Model.Aircrafts.ImgUrl" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="col-md-12 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill">
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-11 text-center">
+
+                                    <img src="@Model.Aircrafts.ImgUrl" alt="user-avatar" width="300" class="img-bordered img-fluid">
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-11 offset-3">
+                                    @foreach (var image in Model.AircrafImages)
+                                    {
+                        <img src="@image.ImgUrl" alt="user-avatar" width="100" class="img-bordered img-fluid">}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6><b>Code: </b>@Model.Aircrafts.Code </h6>
+                                    <h6><b>Name: </b>@Model.Aircrafts.Name </h6>
+                                    <h6><b>Category: </b>@Model.Aircrafts.Category </h6>
+                                    <h6><b>Model: </b>@Model.Aircrafts.Model </h6>
+                                    <h6><b>Description: </b>@Model.Aircrafts.Description </h6>
+                                    <h6><b>Price :</b>RS. @Model.Aircrafts.Price.00 </h6>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <h3 class="card-title font-weight-bold">Customozation Information</h3>
+                                    <div class="card-tools">
+
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="tblData" class="table table-bordered table-hover" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Customzation Type</th>
+                                                <th>Customzation Value</th>
+                                                <th>Price</th>
+
+                                            </tr>
+
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="card card-light">
+                                <div class="card-header">
+                                    <h3 class="card-title font-weight-bold">Specifcation Information</h3>
+                                    <div class="card-tools">
+
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="tblData1" class="table table-bordered table-hover" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Description</th>
+
+                                            </tr>
+
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-footer">
+                            <div class="text-right">
+
+                                <div class="row">
+                                    @*<div class="col">
+                                    @if (Model.CurStatus == SD.Active)
+                                    {
+                        <button type="submit" class="btn btn-warning form-control">Lock</button> }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Un-Lock</button>}
+
+                                </div>*@
+                                    <div class="col">
+                                        <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/bundles/dataTables.min.css">
+    <link rel="stylesheet" href="~/css/bundles/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/bundles/toastr.min.css">
+}
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/bundles/dataTables.min.js"></script>
+    <script src="~/js/bundles/sweetalert2.min.js"></script>
+    <script src="~/js/bundles/toastr.min.js"></script>
+    <script id="script" data-airid="@Model.Aircrafts.AircratfId" src="~/js/custom/aircraftView/customozationview.js"></script>
+    <script id="script1" data-air1id="@Model.Aircrafts.AircratfId" src="~/js/custom/aircraftView/specifcationview.js"></script>
+
+}

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Models.Aircraft>
+@using Models.Enum;
+@{
+	ViewData["Title"] = "Home Page";
+	//Layout = "~/Views/Shared/_LayoutPublicMain.cshtml";
+
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$('#category').change(function () {
+			var selectedCategoryId = $(this).val(); // Get the selected category ID
+			window.location.href = 'ShopPage?catId=' + selectedCategoryId; // Navigate to ShopPage with selected category ID
+		});
+		$('#applyFilter').click(function () {
+			var minPrice = $('#minPrice').val();
+			var maxPrice = $('#maxPrice').val();
+			var selectedCategoryId = null;
+
+			window.location.href = 'ShopPage?catId=' + selectedCategoryId + '&minPrice=' + minPrice + '&maxPrice=' + maxPrice;
+		});
+	});
+</script>
+
+<!--new-arrivals start -->
+<section id="new-arrivals" class="new-arrivals">
+	<div class="container">
+		<div class="section-header">
+			@*<h2>Products</h2>*@
+		</div><!--/.section-header-->
+		<div class="new-arrivals-content">
+			<div class="row">
+
+		@*		<div class="form-group row">
+					<div class="col-md-2">
+						<label class="required">Category</label>
+					</div>
+					<div class="col-md-3">
+						@Html.DropDownList("catId", ViewBag.EnumList as SelectList, new { @class = "form-control", id = "category" })
+					</div>
+					<div class="col-md-2">
+						<label class="required">Price</label>
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="minPrice" name="minPrice" placeholder="Min">
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max">
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary" id="applyFilter">Apply</button>
+					</div>
+				</div>*@
+
+				<div class="form-group row">
+					<div class="col-md-2" style="text-align:right;padding-top:5px">
+						<label class="required"  >Category</label>
+					</div>
+					<div class="col-md-3">
+						@Html.DropDownList("catId", ViewBag.EnumList as SelectList, new { @class = "form-control", id = "category" })
+					</div>
+					<div class="col-md-2" style="text-align:right;padding-top:5px;width:80px">
+						<label class="required">Price</label>
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="minPrice" name="minPrice" placeholder="Min">
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="maxPrice" name="maxPrice" placeholder="Max">
+					</div>
+					<div class="col-md-1">
+						<button type="submit" class="btn btn-primary" id="applyFilter">Apply</button>
+					</div>
+				</div>
+
+
+
+
+				@foreach (var item in Model)
+				{
+					<div class="col-md-3 col-sm-4">
+						<div class="single-new-arrival">
+							<div class="single-new-arrival-bg" style="margin-bottom:0px" >
+								<img src="@item.ImgUrl" style="width:200px !important" alt="new-arrivals images">
+								<div class="single-new-arrival-bg-overlay"></div>
+								<div class="sale bg-1">
+									<p>sale</p>
+								</div>
+								<div class="new-arrival-cart">
+									<p>
+								
+
+										@if (@item.Qty == 0)
+										{
+											<div style="background:darkred;color:white;height:38px;display:flex;justify-content:center;align-items:center">Sold Out</div>
+										}
+										else
+										{
+											<span class="lnr lnr-cart"></span>
+										<a asp-area="Public" asp-controller="Home" asp-action="AddToCart" asp-route-id="@item.AircratfId">add <span>to </span> cart</a>
+										<p class="arrival-review pull-right">
+											<span class="lnr lnr-heart"></span>
+											<span class="lnr lnr-frame-expand"></span>
+										</p>
+										}
+										
+									</p>
+							@*		<p class="arrival-review pull-right">
+										<span class="lnr lnr-heart"></span>
+										<span class="lnr lnr-frame-expand"></span>
+									</p>*@
+								</div>
+							</div>
+							<h4><a asp-area="Public" asp-controller="Home" asp-action="AddToCart" asp-route-id="@item.AircratfId">@item.Name</a></h4>
+							<p class="arrival-product-price"><span>$.@item.Price.00</span></p>
+
+
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div><!--/.container-->
+
+</section><!--/.new-arrivals-->

@@ -1,0 +1,322 @@
+﻿@using System.Text.Json;
+@using Utility;
+@model Models.ViewModels.CartVM
+@{ double tot = 0;
+    double grandtot=0;
+    double shtot = 0;
+    var count = Model.CartDetailList == null ? 0 : Model.CartDetailList.Count(); }
+
+<section class="populer-products">
+    <div class="card card-solid">
+        <div class="card-body">
+            <!--cart-->
+            <form method="post">
+                <br />
+                @if (count > 0)
+                {
+
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="col-6 text-right ">
+                    <ul>
+                      <li class="btn btn-primary" style="margin-bottom:10px"> <a asp-area="Public" asp-controller="Home" asp-action="Index" style="color:white">Continue Shopping</a></li>
+                    </ul>
+
+                </div>
+                <div class="card-header bg-dark text-light ml-0 row container " style="background-color:orange !important; color:white !important; height:50px !important; ">
+                    <div class="col-6" style="margin-top:10px !important;font-weight:bold ">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Products
+                    </div>
+
+                </div>
+                <br />
+                <div class="card-body">
+                    @foreach (var item in Model.CartDetailList)
+                    {
+                <div class="row">
+                    <div class="d-none d-lg-block col-sm-1 col-lg-1 text-center py-2">
+                        <img src="@item.Aircraft.ImgUrl" class="rounded" width="100" />
+                    </div>
+                    <div class="col-sm-6 text-sm-center col-lg-6 text-lg-left">
+                        <h5><strong>@item.Aircraft.Code</strong></h5>
+                        <p><small>@item.Aircraft.Name</small></p>
+                    </div>
+
+                    <div class="col-sm-5  col-lg-5 text-lg-right row">
+                        <div class="row">
+                            <div class="col-md-4 text-md-right" style="padding-top:5px;">
+                                <h6><strong>$.@item.Price<span class="text-muted">x</span> @item.Qty </strong></h6>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-lg-6">
+                                <div class="row">
+                                    <!--<div class="col-md-3 ">
+                    <button class="btn btn-primary" onclick="AddQty(@item.Id)">-->
+                                    @*<i class="fas fa-plus"></i>*@
+                                    <!--<span class="lnr lnr-plus-circle"></span>
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger" onclick="deductQty(@item.Id)">-->
+                                    @*<i class="fas fa-minus"></i>*@
+                                    <!--<span class="lnr lnr-circle-minus"></span>
+                        </button>
+                    </div>-->
+                                    <div class="col-md-6"></div>
+                                </div>
+
+                            </div>
+                            <!--<div class="col-md-2 col-sm-2 col-lg-2 text-right">
+            <button class="btn btn-danger" onclick="deleteQty(@item.Id)">-->
+                            @*<i class="fas fa-trash"></i>*@
+                            <!--<span class="lnr lnr-trash"></span>
+                </button>
+            </div>-->
+                        </div>
+
+                    </div>
+                </div> tot = tot + Convert.ToDouble(item.Qty * item.Price);
+                        grandtot = grandtot + Convert.ToDouble(item.Qty * item.Price);
+                        
+
+                                    <hr />}
+
+
+
+                </div>
+
+                <div class="card-body">
+                    <div class="panel panel-default aa-checkout-billaddress">
+                        <div class="panel">
+                            <h3 class="panel-title btn btn-info">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" style="color:white" >
+                                    Billing Details / Shippping Address
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse">
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                        <label class="required" asp-for="@Model.ShippingDetail.FirstName" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.FirstName" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" asp-for="@Model.ShippingDetail.LastName" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.LastName" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" asp-for="@Model.ShippingDetail.Email" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.Email" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" asp-for="@Model.ShippingDetail.Mobile" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.Mobile" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.Mobile" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" style="color:black">Country</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(m => m.ShippingDetail.CityId, Model.CityList,
+                                                                                new { @class = "form-control", id = "ShippingDetail_CityId" })
+                                        @* <select class="form-control" asp-for="UserPermissions" multiple></select> *@
+                                        <span asp-validation-for="@Model.ShippingDetail.City" class="text-danger"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" asp-for="@Model.ShippingDetail.Address" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.Address" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" style="color:black">City</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.Country" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.Country" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                                        <label class="required" asp-for="@Model.ShippingDetail.PostCode" style="color:black"></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input asp-for="@Model.ShippingDetail.PostCode" class="form-control" />
+                                        <span asp-validation-for="@Model.ShippingDetail.PostCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="card-footer">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6 float-right">
+
+                        </div>
+                        <div class="col-sm-12 col-md-6  col-lg-6  float-right">
+                           
+
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light float-right">
+                                    <span class="text-info"> Total :</span>
+                                    <strong class="text-info"> <span id="txtOrderTotal">$.@tot</span></strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6 float-right">
+                            
+                        </div>
+                        <div class="col-sm-12 col-md-6  col-lg-6  float-right">
+
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light float-right">
+                                    <span class="text-info"> Shipping Amount :</span>
+                                    <strong class="text-info"> <span id="shippingAmount">$.@shtot</span></strong>
+                                </li>
+                            </ul>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light float-right">
+                                    <span class="text-info"> Grand Total :</span>
+                                    <strong class="text-info"> <span id="txtGrandTotal">$.@grandtot</span></strong>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="list-group-item d-flex justify-content-between bg-light float-right">
+                        <span class="text-info">Total</span>
+                        <strong class="text-info"> <span id="txtGrandTotal">Rs.@tot</span></strong>
+                    </div>*@
+                    <div class="card-footer row">
+
+                        <div class="col-sm-0 col-md-6 col-lg-6">
+
+                        </div>
+                        <div class="col-sm-12 col-lg-6 col-md-6 ">
+                            <input type="hidden" asp-for="Carts.Id" />
+                            <input type="hidden" asp-for="@Model.Order.TotAmount" value="@tot" />
+                            <input type="hidden" asp-for="@Model.Order.GrandTotal" value="@grandtot" id="hdnGrandTotal" />
+                            <input type="hidden" asp-for="@Model.Order.ShippingAmount" value="@shtot" id="hndshippingAmount" />
+
+                            <button type="submit" class="btn btn-success form-control">Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> }
+                else
+                {
+    <div>There are no items in the shopping cart.</div>}
+            </form>
+        </div>
+
+    </div>
+</section>
+<br />
+
+@section Scripts{
+    <script>
+        function AddQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/plus/" + v;
+        };
+        function deductQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/minus/" + v;
+        };
+        function deleteQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/remove/" + v;
+        };
+
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            // Attach change event to the city dropdown
+            $("#ShippingDetail_CityId").change(function () {
+
+                var selectedCityId = $(this).val();
+                fetchShippingAmount(selectedCityId);
+            });
+        });
+
+        function fetchShippingAmount(cityId) {
+            // Make an AJAX request to the server to get the shipping amount
+            $.ajax({
+                url: "GetShippingAmount",
+                method: "GET",
+                data: { cityId: cityId },
+                success: function (result) {
+                    // Update the UI with the fetched shipping amount
+                     $("#shippingAmount").text(result.shippingAmount);
+                    $("#shippingAmount").val(result.shippingAmount.toFixed(2));
+                    updateTotalAmount(result.shippingAmount);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function updateTotalAmount(shippingAmount) {
+            // Calculate and update the total amount
+            var totalAmount = parseFloat($("#txtOrderTotal").text().replace("$.", ""));
+            /*var shippingAmount = parseFloat($("#shippingAmount").text());*/
+            shtot = shippingAmount;
+            $("#hndshippingAmount").val(shippingAmount.toFixed(2));
+            /*$("#shippingAmount").val(shippingAmount.toFixed(2));*/
+
+            var grandTotal = totalAmount + shippingAmount;
+            grandtot = grandTotal;
+            /*alert(grandtot);*/
+            $("#hdnGrandTotal").val(grandTotal.toFixed(2));
+            /* $("#txtGrandTotal").text("Rs." + grandTotal.toFixed(2));*/
+            $("#txtGrandTotal").text("$." + grandTotal.toFixed(2));
+
+        }
+    </script>
+
+}

@@ -1,0 +1,71 @@
+﻿
+@using System.Text.Json;
+@using Utility;
+@model Models.City
+@using Models.Enum;
+@{
+    ViewData["Title"] = "Upsert";
+    string title = "Create Country ";
+}
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: black;
+    }
+
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-gradient-lightblue">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.Id != 0)
+            {
+                //edit
+                title = "Edit Country";
+            }
+            <h3 class="card-title" style="font-weight:bold">@title</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="required" asp-for="Name"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-8 offset-md-4">
+                        <div class="row">
+                            @if (Model.Id != 0)
+                            {
+                                <div class="col">
+                                    <button type="submit" id="btnUpdate" class="btn btn-warning form-control" asp-route-id="@Model.Id">Update</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                                </div>
+                            }
+
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

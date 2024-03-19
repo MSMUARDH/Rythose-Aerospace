@@ -1,0 +1,188 @@
+﻿@using System.Text.Json;
+@using Utility;
+@model Models.ViewModels.CartVM
+@{
+    double tot = 0;
+    var count = Model.CartDetailList == null ? 0 : Model.CartDetailList.Count();
+}
+
+<style>
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+</style>
+<section class="populer-products">
+    <div class="card card-solid">
+        <div class="card-body">
+            <!--cart-->
+            <form method="post">
+                <br />
+                @if (count > 0)
+                {
+
+                    <div class="backgroundWhiteBorder">
+                        <div class="container">
+                            <div class="card">
+                                <div class="col-6 text-right ">
+                                    <ul>
+
+                                        <li class="btn btn-primary" style="margin-bottom:10px" > <a asp-area="Public" asp-controller="Home" asp-action="Index" style="color:white"  >Continue Shopping</a></li>
+                                    </ul>
+
+                                </div>
+                                <div class="card-header bg-dark text-light ml-0 row container " style="background-color:orange !important; color:white !important; height:50px !important; ">
+                                    <div class="col-6" style="margin-top:10px !important;">
+                                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                                        Shopping Cart
+                                    </div>
+
+                                </div>
+                                <br />
+                                <div class="card-body">
+                                    @foreach (var item in Model.CartDetailList)
+                                    {
+                            <div class="row">
+                                <div class="d-none d-lg-block col-sm-1 col-lg-1 text-center py-2">
+                                    <img src="@item.Aircraft.ImgUrl" class="rounded" width="100" />
+                                </div>
+                                <div class="col-sm-6 text-sm-center col-lg-6 text-lg-left">
+                                    <h5><strong>@item.Aircraft.Code</strong></h5>
+                                    <p><small>@item.Aircraft.Name</small></p>
+                                </div>
+
+                                <div class="col-sm-5  col-lg-5 text-lg-right row">
+                                    <div class="row">
+                                        <div class="col-md-4 text-md-right" style="padding-top:5px;">
+                                                        <h6><strong>$.@item.Aircraft.Price<span class="text-muted">x</span> @item.Qty </strong></h6>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-lg-6">
+                                            <div class="row">
+                                                <div class="col-md-3 ">
+                                                    <div class="btn btn-primary" onclick="AddQty(@item.Id)">
+                                                        @*<i class="fas fa-plus"></i>*@
+                                                        <span class="lnr lnr-plus-circle"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="btn btn-danger" onclick="deductQty(@item.Id)">
+                                                        @*<i class="fas fa-minus"></i>*@
+                                                        <span class="lnr lnr-circle-minus"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-lg-2 text-right">
+                                            <div class="btn btn-danger" onclick="deleteQty(@item.Id)">
+                                                @*<i class="fas fa-trash"></i>*@
+                                                <span class="lnr lnr-trash"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> tot = tot + Convert.ToDouble(item.Qty * @item.Price);
+                            <hr />}
+
+
+
+                                </div>
+
+                                <table>
+                                    <thead>
+                                        <tr style="color:black" >
+                                            <th>Customization Type</th>
+
+                                            <th>Customization Value</th>
+
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  style="color:black">
+                                        @foreach (var item2 in Model.Availablecustomozation)
+                                        {
+                                            <tr>
+                                                <td>@item2.CustomzationType</td>
+
+                                                <td>@item2.CustomzationValue</td>
+                                                <td>$. @item2.Price</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div class="card-footer">
+                                    <div class="row" style="margin-top:20px">
+                                        <div class="col-sm-0 col-md-6 col-lg-6" >
+
+                                        </div>
+                                        <div class="col-sm-12 col-md-6  col-lg-6  float-right">
+                                            <ul class="list-group">
+                                                <li class="list-group-item d-flex justify-content-between bg-light float-righ" style="text-align:right;padding-right:112px;border-width:0px;font-size:18px">
+                                                    <span class="text-info"> Total :</span>
+                                                    <strong class="text-info"> <span id="txtOrderTotal">$.@tot</span></strong>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer row">
+
+                                        <div class="col-sm-0 col-md-6 col-lg-6">
+
+                                        </div>
+                                        <div class="col-sm-12 col-lg-6 col-md-6 ">
+                                            <ul>
+                                                <li ><a asp-area="Public" asp-controller="Home" asp-action="Order" class="btn form-control" style="color:white ;background-color:orange;font-weight:bolder">Order </a></li>
+                                            </ul>
+
+                                          @*  <a asp-area="Public" asp-controller="Home" asp-action="Order"  class="btn form-control"  style="color:white ;background-color:orange;font-weight:bolder">Order</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div>There are no items in the shopping cart.</div>
+                }
+            </form>
+        </div>
+
+    </div>
+</section>
+<br />
+
+@section Scripts{
+    <script>
+        function AddQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/plus/" + v;
+        };
+        function deductQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/minus/" + v;
+        };
+        function deleteQty(v) {
+            console.log(v);
+            window.location.href = "/Public/Home/remove/" + v;
+        };
+
+    </script>
+}

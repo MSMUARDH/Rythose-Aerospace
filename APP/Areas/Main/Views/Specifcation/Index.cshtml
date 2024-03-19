@@ -1,0 +1,97 @@
+﻿
+@using System.Text.Json;
+@using Utility;
+@model Models.ViewModels.AircraftVM
+@{
+    ViewData["Title"] = "Specifcation";
+
+}
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: black;
+    }
+
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-gradient-lightblue">
+            <h3 class="card-title" style="font-weight:bold"> Aircraft Information</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="Aircrafts.AircratfId" value="@Model.Aircrafts.AircratfId" />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="col-md-12 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill">
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6><b>Code: </b>@Model.Aircrafts.Code </h6>
+                                    <h6><b>Name: </b>@Model.Aircrafts.Name </h6>
+                                    <h6><b>Category: </b>@Model.Aircrafts.Category </h6>
+                                    <h6><b>Price :</b>RS. @Model.Aircrafts.Price.00 </h6>
+
+                                </div>
+                                <div class="col-6 text-center">
+                                    <img src="@Model.Aircrafts.ImgUrl" alt="user-avatar" width="200" class="img-bordered img-fluid">
+                                </div>
+                            </div>
+                        </div>
+         
+                    </div>
+                </div>
+
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="card card-light">
+        <div class="card-header">
+            <h3 class="card-title font-weight-bold">Aircraft Specifcation Information</h3>
+            <div class="card-tools">
+                <a class="btn-sm btn-info text-white" asp-area="Main" asp-controller="Specifcation" asp-action="Upsert">
+                    Create New Specifcation
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblData" class="table table-bordered table-hover" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>                      
+                        <th class="text-center">Action</th>
+
+                    </tr>
+
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+@section Styles{
+    <link rel="stylesheet" href="~/css/bundles/dataTables.min.css">
+    <link rel="stylesheet" href="~/css/bundles/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/bundles/toastr.min.css">
+}
+@section Scripts{
+    <script src="~/js/bundles/dataTables.min.js"></script>
+    <script src="~/js/bundles/sweetalert2.min.js"></script>
+    <script src="~/js/bundles/toastr.min.js"></script>
+    <script src="~/js/custom/specifcation/specifcation.js"></script>
+}

@@ -1,0 +1,89 @@
+﻿@using System.Text.Json;
+@using Utility;
+@model Models.AvailableCustomozation
+@using Models.Enum;
+@{
+    ViewData["Title"] = "Upsert";
+}
+
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: black;
+    }
+
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-gradient-lightblue">
+            <h3 class="card-title" style="font-weight:bold">Create a new Aircraft Customization</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="AircratfId" value="@TempData["airId"]" />
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="required" asp-for="CustomzationType"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="CustomzationType" class="form-control" />
+                        <span asp-validation-for="CustomzationType" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="required" asp-for="CustomzationValue"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <textarea asp-for="CustomzationValue" class="form-control"></textarea>
+
+                        <span asp-validation-for="CustomzationValue" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="required" asp-for="Price"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Price" class="form-control" />
+
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-8 offset-md-4">
+                        <div class="row">
+                            @if (Model.Id != 0)
+                            {
+                                <div class="col">
+                                    <button type="submit" id="btnUpdate" class="btn btn-warning form-control" asp-route-id="@Model.Id">Update</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                                </div>
+                            }
+
+                            <div class="col">
+                                <a asp-action="Index" asp-route-id="@TempData["airId"]" class="btn btn-success form-control">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

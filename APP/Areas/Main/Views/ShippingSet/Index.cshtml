@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="card card-light">
+        <div class="card-header">
+            <h3 class="card-title font-weight-bold">Shipping Price Information</h3>
+            <div class="card-tools">
+                <a class="btn-sm btn-info text-white" asp-area="Main" asp-controller="ShippingSet" asp-action="Upsert">
+                    Set Shipping Price
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="tblData" class="table table-bordered table-hover" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Country</th>
+                        <th>Amount</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/bundles/dataTables.min.css">
+    <link rel="stylesheet" href="~/css/bundles/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/bundles/toastr.min.css">
+}
+@section Scripts{
+    <script src="~/js/bundles/dataTables.min.js"></script>
+    <script src="~/js/bundles/sweetalert2.min.js"></script>
+    <script src="~/js/bundles/toastr.min.js"></script>
+    <script src="~/js/custom/shippingset/shippingset.js"></script>
+}
+
